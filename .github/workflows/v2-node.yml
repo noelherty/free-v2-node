@@ -1,0 +1,42 @@
+
+name: v2-node-update-log
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  laravel-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+      - uses: actions/checkout@v3
+
+      - name: update file
+        run: |
+          date_y=`date "+%Y-%m-%d %H:%M:%S"`
+          month_y=`date "+%m"`
+          echo "${date_y}" > monthly.txt
+          if [ "${month_y}" == "12" ]; then
+            echo "${date_y}" > monthly.txt
+          else
+            echo "${date_y}" >> monthly.txt
+          fi
+      - name: get-node
+        run: |
+          curl 'https://f.kxyz.eu.org/f.php?r=aHR0cHM6Ly9mLmt4eXouZXUub3JnL2ZjLnBocD90PTE2ODIzNzA4NzQ=' > v2.txt
+      - name: push
+        run: |
+          git config --local user.name github-actions[bot]
+          git config --local user.email github-actions[bot]@users.noreply.github.com
+          git status
+          git add monthly.txt v2.txt
+          git commit -m "Monthly update"
+          git log
+          git push origin
+
