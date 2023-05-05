@@ -29,7 +29,8 @@ jobs:
           fi
       - name: get-node
         run: |
-          curl 'https://f.kxyz.eu.org/f.php?r=aHR0cHM6Ly9mLmt4eXouZXUub3JnL2ZjLnBocD90PTE2ODIzNzA4NzQ=' > v2.txt
+          # curl 'https://f.kxyz.eu.org/f.php?r=aHR0cHM6Ly9mLmt4eXouZXUub3JnL2ZjLnBocD90PTE2ODIzNzA4NzQ=' > v2.txt
+          wget -O v2.txt https://f.kxyz.eu.org/f.php?r=aHR0cHM6Ly9mLmt4eXouZXUub3JnL2ZjLnBocD90PTE2ODIzNzA4NzQ=
       - name: push
         run: |
           git config --local user.name github-actions[bot]
